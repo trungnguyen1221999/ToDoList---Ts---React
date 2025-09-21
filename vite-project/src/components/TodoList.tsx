@@ -13,10 +13,18 @@ const TodoList = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
   const [input, setInput] = useState<string>("");
   const [checked, setChecked] = useState(false);
-
+  const [edited, setEdited] = useState(false);
+  const [selectedId, setSelectedID] = useState<string>("");
   const handleRemove = (idRemove: string) => {
     const newTodos = todos.filter((todo) => todo.id !== idRemove);
     setTodos(newTodos);
+  };
+
+  const handleEdit = (idEdit: string) => {
+    todos.map((todo) => {
+      if (todo.id === idEdit) setInput(todo.task);
+    });
+    setEdited(true);
   };
   const handleChecked = (checkedId: string) => {
     setChecked(!checked);
@@ -38,14 +46,32 @@ const TodoList = () => {
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
   };
+  const handleEditSubmit = (editInput: string, editId: string) => {
+    todos.map((todo) => {
+      if (todo.id === editId) todo.task = editInput;
+    });
+    setEdited(false);
+    setInput("");
+  };
   console.log(todos);
   return (
     <Container>
-      <Add input={input} handleInput={handleInput} handleAdd={handleAdd} />
+      <Add
+        input={input}
+        handleInput={handleInput}
+        handleAdd={handleAdd}
+        edited={edited}
+        setEdited={setEdited}
+        handleEditSubmit={handleEditSubmit}
+        handleEdit={handleEdit}
+        selectedId={selectedId}
+      />
       <TaskList
         handleChecked={handleChecked}
         todos={todos}
         handleRemove={handleRemove}
+        handleEdit={handleEdit}
+        setSelectedID={setSelectedID}
       />
     </Container>
   );
