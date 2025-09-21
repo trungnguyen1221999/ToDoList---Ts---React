@@ -6,10 +6,17 @@ interface TaskPropsType {
   handleRemove: (idRemove: string) => void;
   handleEdit: (idEdit: string) => void;
   setSelectedID: React.Dispatch<React.SetStateAction<string>>;
+  handleSaveinLocalStorage: (todos: Todo[]) => void;
 }
 const TaskList = (props: TaskPropsType) => {
-  const { todos, handleChecked, handleRemove, handleEdit, setSelectedID } =
-    props;
+  const {
+    todos,
+    handleChecked,
+    handleRemove,
+    handleEdit,
+    setSelectedID,
+    handleSaveinLocalStorage,
+  } = props;
   const incompleteTodos = todos.filter((task) => !task.done);
   const completedTodos = todos.filter((task) => task.done);
   return (
@@ -23,7 +30,10 @@ const TaskList = (props: TaskPropsType) => {
                 <input
                   type="checkbox"
                   checked={task.done}
-                  onChange={() => handleChecked(task.id)}
+                  onChange={() => {
+                    handleChecked(task.id);
+                    handleSaveinLocalStorage(todos);
+                  }}
                 />
                 <p>{task.task}</p>
                 <StyledSpan>
@@ -51,7 +61,10 @@ const TaskList = (props: TaskPropsType) => {
                 <input
                   type="checkbox"
                   checked={task.done}
-                  onChange={() => handleChecked(task.id)}
+                  onChange={() => {
+                    handleChecked(task.id);
+                    handleSaveinLocalStorage(todos);
+                  }}
                 />
                 <p className="done">{task.task}</p>
                 <StyledSpan>

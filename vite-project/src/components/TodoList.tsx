@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Add from "./Add";
 import { Container } from "./Container";
 import TaskList from "./TaskList";
@@ -15,6 +15,20 @@ const TodoList = () => {
   const [checked, setChecked] = useState(false);
   const [edited, setEdited] = useState(false);
   const [selectedId, setSelectedID] = useState<string>("");
+  const handleSaveinLocalStorage = (todos: Todo[]) => {
+    localStorage.setItem("todos", JSON.stringify(todos));
+  };
+  useEffect(() => {
+    handleSaveinLocalStorage(todos);
+  }, [todos]);
+
+  useEffect(() => {
+    const store = localStorage.getItem("todos");
+    if (store) {
+      setTodos(JSON.parse(store));
+    }
+  }, []);
+
   const handleRemove = (idRemove: string) => {
     const newTodos = todos.filter((todo) => todo.id !== idRemove);
     setTodos(newTodos);
@@ -40,6 +54,7 @@ const TodoList = () => {
       done: false,
     };
     setTodos((prev) => [...prev, newTask]);
+
     setInput("");
   };
 
@@ -65,6 +80,8 @@ const TodoList = () => {
         handleEditSubmit={handleEditSubmit}
         handleEdit={handleEdit}
         selectedId={selectedId}
+        handleSaveinLocalStorage={handleSaveinLocalStorage}
+        todos={todos}
       />
       <TaskList
         handleChecked={handleChecked}
@@ -72,6 +89,7 @@ const TodoList = () => {
         handleRemove={handleRemove}
         handleEdit={handleEdit}
         setSelectedID={setSelectedID}
+        handleSaveinLocalStorage={handleSaveinLocalStorage}
       />
     </Container>
   );
