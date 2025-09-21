@@ -10,7 +10,10 @@ export interface Todo {
 }
 
 const TodoList = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const [todos, setTodos] = useState<Todo[]>(() => {
+    const store = localStorage.getItem("todos");
+    return store ? JSON.parse(store) : [];
+  });
   const [input, setInput] = useState<string>("");
   const [checked, setChecked] = useState(false);
   const [edited, setEdited] = useState(false);
@@ -21,13 +24,6 @@ const TodoList = () => {
   useEffect(() => {
     handleSaveinLocalStorage(todos);
   }, [todos]);
-
-  useEffect(() => {
-    const store = localStorage.getItem("todos");
-    if (store) {
-      setTodos(JSON.parse(store));
-    }
-  }, []);
 
   const handleRemove = (idRemove: string) => {
     const newTodos = todos.filter((todo) => todo.id !== idRemove);
