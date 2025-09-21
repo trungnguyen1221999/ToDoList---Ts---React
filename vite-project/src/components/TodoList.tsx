@@ -14,6 +14,10 @@ const TodoList = () => {
   const [input, setInput] = useState<string>("");
   const [checked, setChecked] = useState(false);
 
+  const handleRemove = (idRemove: string) => {
+    const newTodos = todos.filter((todo) => todo.id !== idRemove);
+    setTodos(newTodos);
+  };
   const handleChecked = (checkedId: string) => {
     setChecked(!checked);
     todos.map((todo) => {
@@ -38,7 +42,11 @@ const TodoList = () => {
   return (
     <Container>
       <Add input={input} handleInput={handleInput} handleAdd={handleAdd} />
-      <TaskList handleChecked={handleChecked} todos={todos} />
+      <TaskList
+        handleChecked={handleChecked}
+        todos={todos}
+        handleRemove={handleRemove}
+      />
     </Container>
   );
 };

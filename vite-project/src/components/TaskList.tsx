@@ -3,9 +3,10 @@ import type { Todo } from "./TodoList";
 interface TaskPropsType {
   todos: Todo[];
   handleChecked: (checkedId: string) => void;
+  handleRemove: (idRemove: string) => void;
 }
 const TaskList = (props: TaskPropsType) => {
-  const { todos, handleChecked } = props;
+  const { todos, handleChecked, handleRemove } = props;
   const incompleteTodos = todos.filter((task) => !task.done);
   const completedTodos = todos.filter((task) => task.done);
   return (
@@ -24,7 +25,7 @@ const TaskList = (props: TaskPropsType) => {
                 <p>{task.task}</p>
                 <StyledSpan>
                   <button>edit</button>
-                  <button>remove</button>
+                  <button onClick={() => handleRemove(task.id)}>remove</button>
                 </StyledSpan>
               </StyledLi>
             ))}
@@ -45,7 +46,7 @@ const TaskList = (props: TaskPropsType) => {
                 <p className="done">{task.task}</p>
                 <StyledSpan>
                   <button>edit</button>
-                  <button>remove</button>
+                  <button onClick={() => handleRemove(task.id)}>remove</button>
                 </StyledSpan>
               </StyledLi>
             ))}
