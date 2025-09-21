@@ -8,4 +8,5 @@ export const Container = styled.div`
   padding: 4rem;
   border-radius: 1rem;
   box-shadow: 0.5rem 0.2rem 0 0;
+  gap: 2rem;
 `;
