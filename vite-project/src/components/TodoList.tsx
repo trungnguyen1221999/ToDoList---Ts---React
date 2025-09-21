@@ -1,7 +1,14 @@
-import React from "react";
+import Add from "./Add";
+import { Container } from "./Container";
+import TaskList from "./TaskList";
 
 const TodoList = () => {
-  return <div>dsadas</div>;
+  return (
+    <Container>
+      <Add />
+      <TaskList />
+    </Container>
+  );
 };
 
 export default TodoList;
